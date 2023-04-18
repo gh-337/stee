@@ -12,34 +12,13 @@
         android:theme="@style/Theme.Stee"
         tools:targetApi="31">
         <activity
-            android:name=".prog"
-            android:exported="false" />
-        <activity
-            android:name=".reg2"
-            android:exported="false" />
-        <activity
-            android:name=".Register"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
-            android:exported="false" />
-        <activity
-            android:name=".register"
+            android:name=".Second"
             android:exported="false" />
         <activity
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".ac2"
-            android:exported="false" />
-        <activity
-            android:name=".register2"
-            android:exported="false" />
-        <activity
-            android:name=".login2"
-            android:exported="false" />
-        <activity
-            android:name=".ActivityLogin"
+            android:name=".register"
             android:exported="false" />
         <activity
             android:name=".ac_3"

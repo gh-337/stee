@@ -1,40 +1,52 @@
-package com.example.stee
+package com.example.realtimedatabasekotlin
 
-import android.content.Intent
+import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
+import com.example.realtimedatabasekotlin.databinding.ActivityMainBinding
 import com.example.stee.databinding.ActivityMainBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+
+    private lateinit var binding : ActivityMainBinding
+    private lateinit var database : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val sharedPref = getSharedPreferences("myPref", MODE_PRIVATE)
-        val editor =sharedPref.edit()
 
-        binding.apply {
-            btnSave.setOnClickListener {
-                val userName = edtUsername.text.toString() //-значеня
-                val email = edtEmail.text.toString()
+        binding.registerBtn.setOnClickListener {
 
-                editor.apply {
-                    putString("user_name",userName) //dbljlbvj
-                    putString("email",email)
-                    apply()
-                }
+            val firstName = binding.firstName.text.toString()
+            val lastName = binding.lastName.text.toString()
+            val age = binding.age.text.toString()
+            val userName = binding.userName.text.toString()
+
+            database = FirebaseDatabase.getInstance().getReference("Users")
+            val User = User(firstName,lastName,age,userName)
+            database.child(userName).setValue(User).addOnSuccessListener {//силка з багом
+                // чистка
+
+                binding.firstName.text.clear() //
+                binding.lastName.text.clear()
+                binding.age.text.clear()
+                binding.userName.text.clear()
+
+                Toast.makeText(this,"Successfully Saved",Toast.LENGTH_SHORT).show()
+
+            }.addOnFailureListener{
+
+                Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
+                    //тости на дбре або не
+
+
+
             }
 
-            btnLoad.setOnClickListener {
 
-                val userName = sharedPref.getString("user_name",null)
-                val email = sharedPref.getString("email",null)
-
-                tvUsername.text = userName
-                tvEmail.text=email
-            }
         }
 
     }
@@ -42,19 +54,46 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+
+
+
+
 /*class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding : ActivityMainBinding
+    private lateinit var database : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    fun oneClikLogin (viaw : View){
-        val intent = Intent(this , Login ::class.java)
-        startActivity(intent)
-    }
+        binding.registerBtn.setOnClickListener {
 
-    fun oneClikRegister (viaw : View){
-        val intent = Intent(this , Register ::class.java)
-        startActivity(intent)
+            val firstName = binding.Name.text.toString()
+            val age = binding.age.text.toString()
+            val userName = binding.userName.text.toString()
+
+            database = FirebaseDatabase.getInstance().getReference("Users")
+            val User = User(Name,age,userName)
+            database.child(userName).setValue(User).addOnSuccessListener {
+
+                binding.Name.text.clear()
+                binding.age.text.clear()
+                binding.userName.text.clear()
+
+                Toast.makeText(this,"Successfully Saved",Toast.LENGTH_SHORT).show()
+
+            }.addOnFailureListener{
+
+                Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show()
+
+
+            }
+
+
+        }
+
     }
 }*/
